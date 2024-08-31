@@ -66,14 +66,13 @@ jobs:
     env:
       ARCH: ${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
     steps:
+      - run: echo ${ARCH}
       - name: Fetch
         run: |
           Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.exe -OutFile sfx.exe
           ./sfx.exe
       - uses: ilammy/msvc-dev-cmd@v1
-      - name: Generate symbols 1
-        run: |
-          dumpbin /SYMBOLS frida-core.lib > symbols.txt
+      - run: dumpbin /SYMBOLS frida-core.lib > symbols.txt
       - name: "bonanza"
         shell: bash
         run: |
