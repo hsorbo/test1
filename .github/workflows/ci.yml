@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
-        arch: [arm64]
+        arch: [x86, x86_64, arm64, mips64]
     runs-on: ubuntu-latest
     steps:
       - name: Link
@@ -16,7 +16,8 @@ jobs:
           PLATFORM=linux-$(uname -m)
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          RID=linux-${{ matrix.arch }}
+          RID_ARCH=${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
+          RID=linux-RID_ARCH
           PKG=runtimes/$RID/native
           mkdir -p $PKG
           gcc -o $PKG/frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
