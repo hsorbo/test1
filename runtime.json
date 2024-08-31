@@ -1,0 +1,29 @@
+{
+  "runtimes": {
+    "linux-arm64": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.linux-arm64": "0.0.1"
+      }
+    },
+    "linux-x64": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.linux-x64": "0.0.1"
+      }
+    },
+    "linux-x86": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.linux-x86": "0.0.1"
+      }
+    },
+    "linux-mips64": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.linux-mips64": "0.0.1"
+      }
+    },
+    "win-x64": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.win-x64": "0.0.1"
+      }
+    }
+  }
+}
