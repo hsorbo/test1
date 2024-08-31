@@ -21,12 +21,12 @@ jobs:
           PKG=runtimes/$RID/native
           mkdir -p $PKG
           gcc -o $PKG/frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-          zip frida-core-devkit.runtime.$RID.$NUPKG_VERSION.nuget -r runtimes
+          zip frida-core-devkit.runtime.$RID.$NUPKG_VERSION.nupkg -r runtimes
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: linux-${{ matrix.arch }}
-          path: "*.nuget"
+          path: "*.nupkg"
   # macos-dylib:
   #   strategy:
   #     matrix:
