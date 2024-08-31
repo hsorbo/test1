@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-${{ matrix.arch }}
-          path: frida.so
+          path: ${{ matrix.arch }}/frida.so
   # macos-dylib:
   #   strategy:
   #     matrix:
