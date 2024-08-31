@@ -74,7 +74,7 @@ jobs:
       - name: Link
         run: |
           ls
-          link.exe /MACHINE:X64 /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
+          link.exe /MACHINE:X86 /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
           ls
       - name: Archive
         uses: actions/upload-artifact@v4
