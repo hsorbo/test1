@@ -70,9 +70,10 @@ jobs:
         shell: bash
         run: |
           echo "EXPORTS" > exports.def
-          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g)' >> exports.def
+          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' >> exports.def
       - name: Link
         run: |
+          ls
           link.exe /MACHINE:X64 /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
           ls
       - name: Archive
