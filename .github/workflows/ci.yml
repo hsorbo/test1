@@ -99,3 +99,8 @@ jobs:
           path: build/
       - run: find .
       - run: dotnet pack sdk.csproj -o artifacts/
+      - name: Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget
+          path: artifacts/*.nupkg
