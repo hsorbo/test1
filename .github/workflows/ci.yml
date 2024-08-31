@@ -21,7 +21,7 @@ jobs:
           PKG=runtimes/$RID/native
           mkdir -p $PKG
           gcc -o $PKG/frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-          zip frida-core-devkit.runtime.$RID.nuget -r runtimes
+          zip frida-core-devkit.runtime.$RID.0.0.1.nuget -r runtimes
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -76,12 +76,12 @@ jobs:
         run: |
           echo "EXPORTS" > exports.def
           cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' | grep -v "_frida_tunnel_interface_observer_new"  >> exports.def
-      - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
+      - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:banana/frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
           name: windows-${{ matrix.arch }}
-          path: frida.dll
+          path: "**/frida.dll"
 # package:
 #   runs-on: ubuntu-latest
 #   needs:
