@@ -70,7 +70,8 @@ jobs:
       - name: "bonanza"
         shell: bash
         run: |
-          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g)' > symbols2.txt
+          echo -n "EXPORTS" > exports.def
+          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g)' >> exports.def
       - name: Link
         run: |
           link.exe /MACHINE:X64 /DLL /OUT:frida.dll frida-core.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
@@ -78,4 +79,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-${{ matrix.arch }}
-          path: symbols2.txt
+          path: exports.def
