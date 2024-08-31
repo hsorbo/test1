@@ -92,7 +92,7 @@ jobs:
       - linux-so
       - windows-dll
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Download release assets
         uses: actions/download-artifact@v4
         with:
