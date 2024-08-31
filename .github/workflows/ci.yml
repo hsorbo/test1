@@ -5,7 +5,7 @@ env:
   FRIDA_VERSION: 16.4.10
 
 jobs:
-  create-linux-so:
+  linux-so:
     strategy:
       matrix:
         arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
@@ -23,15 +23,30 @@ jobs:
         with:
           name: linux-${{ matrix.arch }}
           path: frida.so
-      - run: uname -a
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+  macos-dylib:
+    strategy:
+      matrix:
+        arch: [x86_64, arm64, arm64e]
+    runs-on: macos-latest
+    steps:
+      - name: Link
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          PLATFORM=macos-$(uname -m)
+          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
+          clang libfrida-core.a \
+            -framework Foundation \
+            -framework AppKit \
+            -framework IOKit \
+            -framework Security \
+            -lresolv \
+            -dynamiclib \
+            -lbsm -ldl -lm -fPIC \
+            -Wl,-ld_classic \
+            -Wl,-exported_symbols_list,symbols.txt \
+            -o frida.dylib
+      - name: Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.arch }}
+          path: frida.dylib
