@@ -10,10 +10,18 @@ jobs:
     env:
       PLATFORM: linux-x86_64
     steps:
-      - run: wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-      - run: tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-      - run: gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-      - run: find .
+      - name: Link
+        run: |
+          wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
+          find .
+      - name: Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: test
+          path: frida.so
+
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
