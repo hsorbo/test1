@@ -70,7 +70,7 @@ jobs:
         shell: bash
         run: |
           echo "EXPORTS" > exports.def
-          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' >> exports.def
+          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' | grep -v "_frida_tunnel_interface_observer_new"  >> exports.def
       - name: Link
         run: |
           ls
