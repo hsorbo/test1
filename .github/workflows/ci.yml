@@ -68,8 +68,9 @@ jobs:
           dumpbin /SYMBOLS frida-core.lib > symbols.txt
           link.exe /MACHINE:X64 /DLL /OUT:frida.dll frida-core.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
           ls
+          bash cat symbols.txt | grep External | less | sed 's/.*\| //g' | egrep '^_(frida|g)' > symbols2.txt
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
-          name: linux-${{ matrix.arch }}
-          path: symbols.txt
+          name: windows-${{ matrix.arch }}
+          path: symbols2.txt
