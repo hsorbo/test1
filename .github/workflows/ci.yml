@@ -4,24 +4,25 @@ on: [push]
 env:
   FRIDA_VERSION: 16.4.10
 jobs:
-  # linux-so:
-  #   strategy:
-  #     matrix:
-  #       arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Link
-  #       run: |
-  #         PLATFORM=linux-$(uname -m)
-  #         wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-  #         tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-  #         gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-  #         find .
-  #     - name: Archive
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: linux-${{ matrix.arch }}
-  #         path: frida.so
+  linux-so:
+    strategy:
+      matrix:
+        #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
+        arch: [arm64]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Link
+        run: |
+          PLATFORM=linux-$(uname -m)
+          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
+          find .
+      - name: Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.arch }}
+          path: frida.so
   # macos-dylib:
   #   strategy:
   #     matrix:
@@ -85,5 +86,14 @@ jobs:
   #         path: frida.dll
   package:
     runs-on: ubuntu-latest
+    needs:
+      - linux-so
+
     steps:
-      - run: dotnet --version
+      - name: Download release assets
+        uses: actions/download-artifact@v4
+        with:
+          pattern: linux-*
+          merge-multiple: true
+          path: build/
+      - run: find .
