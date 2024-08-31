@@ -63,6 +63,8 @@ jobs:
         arch: [x86_64]
       fail-fast: false
     runs-on: windows-latest
+    env:
+      ARCH: ${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
     steps:
       - name: Fetch
         run: |
@@ -77,7 +79,7 @@ jobs:
         run: |
           echo "EXPORTS" > exports.def
           cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' | grep -v "_frida_tunnel_interface_observer_new"  >> exports.def
-      - run: link.exe /MACHINE:${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
+      - run: link.exe /MACHINE:${ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
