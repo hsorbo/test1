@@ -8,8 +8,7 @@ jobs:
   linux-so:
     strategy:
       matrix:
-        #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
-        arch: [x86, x86_64, arm64, mips64]
+        arch: [x86, x86_64, arm64, mips64] # arch: [x86_64-musl, armhf, arm64-musl, mips, mipsel, mips64el]
     runs-on: ubuntu-latest
     steps:
       - name: Link
@@ -87,22 +86,21 @@ jobs:
         with:
           name: windows-${{ matrix.arch }}
           path: "*.nupkg"
-# package:
-#   runs-on: ubuntu-latest
-#   needs:
-#     - linux-so
-#   steps:
-#     - uses: actions/checkout@v4
-#     - name: Download release assets
-#       uses: actions/download-artifact@v4
-#       with:
-#         pattern: linux-*
-#         merge-multiple: true
-#         path: build/
-#     - run: find .
-#     - run: dotnet pack sdk.csproj --property RuntimeIdentifier=linux-arm64 -o artifacts/
-#     - name: Archive
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: nuget
-#         path: artifacts/*.nupkg
+package:
+  runs-on: ubuntu-latest
+  needs:
+    - linux-so
+    - windows-dll
+  steps:
+    - uses: actions/checkout@v4
+    - name: Download release assets
+      uses: actions/download-artifact@v4
+      with:
+        pattern: "*-*"
+        merge-multiple: true
+        path: build/
+    - name: Archive
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget
+        path: "**/*.nupkg"
