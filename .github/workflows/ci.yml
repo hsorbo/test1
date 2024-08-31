@@ -7,11 +7,10 @@ env:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    env:
-      PLATFORM: linux-x86_64
     steps:
       - name: Link
         run: |
+          PLATFORM=linux-$(uname -m)
           wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
