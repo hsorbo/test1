@@ -65,5 +65,5 @@ jobs:
       - name: Link
         run: |
           ls
-          link.exe /DLL /OUT:frida.dll frida-core.lib
+          link.exe /MACHINE ${{ matrix.arch }} /DLL /OUT:frida.dll frida-core.lib library.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
           ls
