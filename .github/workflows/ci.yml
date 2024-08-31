@@ -98,7 +98,7 @@ jobs:
           merge-multiple: true
           path: build/
       - run: find .
-      - run: dotnet pack sdk.csproj -o artifacts/
+      - run: dotnet pack sdk.csproj --property RuntimeIdentifier=linux-arm64 -o artifacts/
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
