@@ -70,7 +70,7 @@ jobs:
       - name: "bonanza"
         shell: bash
         run: |
-          cat symbols.txt | grep External | sed 's/^.*\| //g'| > symbols2.txt
+          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g)' > symbols2.txt
       - name: Link
         run: |
           link.exe /MACHINE:X64 /DLL /OUT:frida.dll frida-core.lib kernel32.lib user32.lib gdi32.lib msvcrt.lib
