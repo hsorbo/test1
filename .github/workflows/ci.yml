@@ -4,53 +4,53 @@ on: [push]
 env:
   FRIDA_VERSION: 16.4.10
 jobs:
-  linux-so:
-    strategy:
-      matrix:
-        arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Link
-        run: |
-          PLATFORM=linux-$(uname -m)
-          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-          find .
-      - name: Archive
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-${{ matrix.arch }}
-          path: frida.so
-  macos-dylib:
-    strategy:
-      matrix:
-        arch: [x86_64, arm64, arm64e]
-    runs-on: macos-latest
-    steps:
-      - name: Link
-        run: |
-          PLATFORM=macos-$(uname -m)
-          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          tar xvzf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          find .
-          nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
-          clang libfrida-core.a \
-            -framework Foundation \
-            -framework AppKit \
-            -framework IOKit \
-            -framework Security \
-            -lresolv \
-            -dynamiclib \
-            -lbsm -ldl -lm -fPIC \
-            -Wl,-ld_classic \
-            -Wl,-exported_symbols_list,symbols.txt \
-            -o frida.dylib
-      - name: Archive
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-${{ matrix.arch }}
-          path: frida.dylib
+  # linux-so:
+  #   strategy:
+  #     matrix:
+  #       arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Link
+  #       run: |
+  #         PLATFORM=linux-$(uname -m)
+  #         wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+  #         tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+  #         gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
+  #         find .
+  #     - name: Archive
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: linux-${{ matrix.arch }}
+  #         path: frida.so
+  # macos-dylib:
+  #   strategy:
+  #     matrix:
+  #       arch: [x86_64, arm64, arm64e]
+  #   runs-on: macos-latest
+  #   steps:
+  #     - name: Link
+  #       run: |
+  #         PLATFORM=macos-$(uname -m)
+  #         wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+  #         tar xvzf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+  #         find .
+  #         nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
+  #         clang libfrida-core.a \
+  #           -framework Foundation \
+  #           -framework AppKit \
+  #           -framework IOKit \
+  #           -framework Security \
+  #           -lresolv \
+  #           -dynamiclib \
+  #           -lbsm -ldl -lm -fPIC \
+  #           -Wl,-ld_classic \
+  #           -Wl,-exported_symbols_list,symbols.txt \
+  #           -o frida.dylib
+  #     - name: Archive
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: macos-${{ matrix.arch }}
+  #         path: frida.dylib
   windows-dll:
     strategy:
       matrix:
@@ -60,6 +60,4 @@ jobs:
       - name: Link
         run: |
           set PLATFORM=windows-${{ matrix.arch }}
-          echo https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.tar.xz 
-          #Invoke-WebRequest https://github.com/frida/frida/releases/download/$Env:FRIDA_VERSION/frida-core-devkit-${Env:FRIDA_VERSION}-${PLATFORM}.tar.xz -OutFile banan.tar.gz
-          #tar xvzf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.tar.xz -O banan.zip
