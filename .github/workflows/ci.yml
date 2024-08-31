@@ -83,3 +83,8 @@ jobs:
         with:
           name: windows-${{ matrix.arch }}
           path: frida.dll
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - run: dotnet --version
+
