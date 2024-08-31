@@ -54,7 +54,8 @@ jobs:
   windows-dll:
     strategy:
       matrix:
-        arch: [x86, x86_64]
+        #arch: [x86, x86_64]
+        arch: [x86]
     runs-on: windows-latest
     steps:
       - name: Fetch
