@@ -8,7 +8,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     env:
-      PLATFORM=x86_64
+      PLATFORM: x86_64
     steps:
       - run: wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$PLATFORM.tar.xz
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
