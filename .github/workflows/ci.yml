@@ -16,8 +16,8 @@ jobs:
           PLATFORM=linux-$(uname -m)
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          mkdir -p ${{ matrix.arch }}
-          gcc -o ${{ matrix.arch }}/frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
+          mkdir -p linux-${{ matrix.arch }}
+          gcc -o linux-${{ matrix.arch }}/frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
           find .
       - name: Archive
         uses: actions/upload-artifact@v4
