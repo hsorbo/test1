@@ -33,9 +33,9 @@ jobs:
         run: |
           PLATFORM=macos-$(uname -m)
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          tar xvzf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           find .
           nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
-          find .
           clang libfrida-core.a \
             -framework Foundation \
             -framework AppKit \
