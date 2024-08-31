@@ -76,7 +76,7 @@ jobs:
       - name: Link
         run: |
           ls
-          link.exe /MACHINE:${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib
+          link.exe /MACHINE:${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib  Shell32.lib
           ls
       - name: Archive
         uses: actions/upload-artifact@v4
