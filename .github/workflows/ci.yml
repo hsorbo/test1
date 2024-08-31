@@ -61,5 +61,5 @@ jobs:
       - name: Link
         run: |
           set PLATFORM=windows-${{ matrix.arch }}
-          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          Invoke-WebRequest https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz -OutFile banan.tar.gz
           tar xvzf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
