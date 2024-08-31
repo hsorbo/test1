@@ -98,3 +98,4 @@ jobs:
           merge-multiple: true
           path: build/
       - run: find .
+      - run: dotnet pack sdk.csproj -o artifacts/
