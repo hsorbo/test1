@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <PackageId>frida-core-devkit.runtime.{rid}</PackageId>
+        <PackageId>frida-core-devkit.runtime.linux-arm64</PackageId>
         <TargetFramework>net5.0</TargetFramework>
         <VersionPrefix>0.0.1</VersionPrefix>
         <RuntimeIdentifiers>linux-arm64</RuntimeIdentifiers>
