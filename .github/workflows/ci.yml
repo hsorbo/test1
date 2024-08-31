@@ -60,4 +60,4 @@ jobs:
       - name: Link
         run: |
           set PLATFORM=windows-${{ matrix.arch }}
-          Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.tar.xz -O banan.zip
+          Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.tar.xz -OutFile banan.tar.xz
