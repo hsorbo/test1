@@ -56,54 +56,49 @@ jobs:
   #       with:
   #         name: macos-${{ matrix.arch }}
   #         path: frida.dylib
-  # windows-dll:
-  #   strategy:
-  #     matrix:
-  #       #arch: [x86, x86_64]
-  #       arch: [x86_64]
-  #     fail-fast: false
-  #   runs-on: windows-latest
-  #   steps:
-  #     - name: Fetch
-  #       run: |
-  #         Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.exe -OutFile sfx.exe
-  #         ./sfx.exe
-  #     - uses: ilammy/msvc-dev-cmd@v1
-  #     - name: Generate symbols 1
-  #       run: |
-  #         ls
-  #         dumpbin /SYMBOLS frida-core.lib > symbols.txt
-  #     - name: "bonanza"
-  #       shell: bash
-  #       run: |
-  #         echo "EXPORTS" > exports.def
-  #         cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' | grep -v "_frida_tunnel_interface_observer_new"  >> exports.def
-  #     - name: Link
-  #       run: |
-  #         ls
-  #         link.exe /MACHINE:${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
-  #         ls
-  #     - name: Archive
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: windows-${{ matrix.arch }}
-  #         path: frida.dll
-  package:
-    runs-on: ubuntu-latest
-    needs:
-      - linux-so
+  windows-dll:
+    strategy:
+      matrix:
+        #arch: [x86, x86_64]
+        arch: [x86_64]
+      fail-fast: false
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Download release assets
-        uses: actions/download-artifact@v4
-        with:
-          pattern: linux-*
-          merge-multiple: true
-          path: build/
-      - run: find .
-      - run: dotnet pack sdk.csproj --property RuntimeIdentifier=linux-arm64 -o artifacts/
+      - name: Fetch
+        run: |
+          Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.exe -OutFile sfx.exe
+          ./sfx.exe
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Generate symbols 1
+        run: |
+          dumpbin /SYMBOLS frida-core.lib > symbols.txt
+      - name: "bonanza"
+        shell: bash
+        run: |
+          echo "EXPORTS" > exports.def
+          cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' | grep -v "_frida_tunnel_interface_observer_new"  >> exports.def
+      - run: link.exe /MACHINE:${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
-          name: nuget
-          path: artifacts/*.nupkg
+          name: windows-${{ matrix.arch }}
+          path: frida.dll
+# package:
+#   runs-on: ubuntu-latest
+#   needs:
+#     - linux-so
+#   steps:
+#     - uses: actions/checkout@v4
+#     - name: Download release assets
+#       uses: actions/download-artifact@v4
+#       with:
+#         pattern: linux-*
+#         merge-multiple: true
+#         path: build/
+#     - run: find .
+#     - run: dotnet pack sdk.csproj --property RuntimeIdentifier=linux-arm64 -o artifacts/
+#     - name: Archive
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: nuget
+#         path: artifacts/*.nupkg
