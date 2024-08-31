@@ -66,8 +66,7 @@ jobs:
     env:
       ARCH: ${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
     steps:
-      - run: echo ${ARCH}
-      - run: echo %ARCH%
+      - run: echo ${env:ARCH}
       - name: Fetch
         run: |
           Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.exe -OutFile sfx.exe
