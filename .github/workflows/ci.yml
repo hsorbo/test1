@@ -12,6 +12,7 @@ jobs:
     steps:
       - run: wget https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
       - run: tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+      - run: gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
       - run: find .
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
