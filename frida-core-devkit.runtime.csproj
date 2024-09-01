@@ -2,7 +2,6 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <VersionPrefix>0.0.1</VersionPrefix>
-        
     </PropertyGroup>
     <!-- #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el] -->
     <PropertyGroup Condition="'$(Platform)' == 'linux-x86'">
@@ -13,6 +12,13 @@
         <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-x86/native" />
     </ItemGroup>
 
+    <PropertyGroup Condition="'$(Platform)' == 'linux-x86_64'">
+        <PackageId>frida-core-devkit.runtime.linux-x64</PackageId>
+    </PropertyGroup>    
+    <ItemGroup Condition="'$(Platform)' == 'linux-x86_64'">
+        <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
+    </ItemGroup>
+
     <PropertyGroup Condition="'$(Platform)' == 'linux-arm64'">
         <PackageId>frida-core-devkit.runtime.linux-arm64</PackageId>
     </PropertyGroup>    
@@ -20,11 +26,11 @@
         <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-arm64/native" />
     </ItemGroup>
 
-    <PropertyGroup Condition="'$(Platform)' == 'linux-x86_64'">
-        <PackageId>frida-core-devkit.runtime.linux-x64</PackageId>
+    <PropertyGroup Condition="'$(Platform)' == 'linux-armhf'">
+        <PackageId>frida-core-devkit.runtime.linux-arm32</PackageId>
     </PropertyGroup>    
-    <ItemGroup Condition="'$(Platform)' == 'linux-x86_64'">
-        <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
+    <ItemGroup Condition="'$(Platform)' == 'linux-armhf'">
+        <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-arm32/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'linux-mips64'">
@@ -41,12 +47,10 @@
         <None Include="frida.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     </ItemGroup>
 
-
-
-    <PropertyGroup Condition="'$(Platform)' == 'win-x64'">
-        <PackageId>frida-core-devkit.runtime.win-x64</PackageId>
+    <PropertyGroup Condition="'$(Platform)' == 'win-x86'">
+        <PackageId>frida-core-devkit.runtime.win-x86</PackageId>
     </PropertyGroup>    
-    <ItemGroup Condition="'$(RuntimeIdentifier)' == 'win-x64'">
-        <None Include="build/win-x86_64/frida.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
+    <ItemGroup Condition="'$(Platform)' == 'win-x86'">
+        <None Include="frida.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
     </ItemGroup>
 </Project>
