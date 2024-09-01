@@ -9,6 +9,7 @@ jobs:
     strategy:
       matrix:
         arch: [x86, x86_64, arm64, mips64] # arch: [x86_64-musl, armhf, arm64-musl, mips, mipsel, mips64el]
+      fail-fast: false
     runs-on: ubuntu-latest
     container: ghcr.io/frida/x-tools-linux-${{ matrix.arch }}:latest
     steps:
@@ -22,7 +23,7 @@ jobs:
           apt-get install -y wget
       - name: Link
         run: |
-          PLATFORM=linux-${{ matrix.arch }}
+          PLATFORM=linux-(${{ matrix.arch }})
           echo $PLATFORM
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
