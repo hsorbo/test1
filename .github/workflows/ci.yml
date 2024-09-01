@@ -16,12 +16,9 @@ jobs:
           PLATFORM=linux-$(uname -m)
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          RID_ARCH=${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
-          RID=linux-$RID_ARCH
-          PKG=runtimes/$RID/native
-          mkdir -p $PKG
-          gcc -o $PKG/frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-          zip frida-core-devkit.runtime.$RID.$NUPKG_VERSION.nupkg -r runtimes
+          gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
+      - run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=linux-${{ matrix.arch }} -o .
+
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -77,14 +74,12 @@ jobs:
           echo "EXPORTS" > exports.def
           cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)' | grep -v "_frida_tunnel_interface_observer_new"  >> exports.def
       - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
-      - run: mkdir runtimes/win-${env:ARCH}/native
-      - run: mv frida.dll runtimes/win-${env:ARCH}/native
-      - run: Compress-Archive -Path runtimes -DestinationPath frida-core-devkit.runtime.win-${env:ARCH}.${env:NUPKG_VERSION}.nupkg
+      - run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=win-${{ matrix.arch }} -o .
       - run: ls
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
-          name: windows-${{ matrix.arch }}
+          name: win-${{ matrix.arch }}
           path: "*.nupkg"
   package:
     runs-on: ubuntu-latest
