@@ -11,13 +11,14 @@ jobs:
         arch: [x86, x86_64, arm64, mips64] # arch: [x86_64-musl, armhf, arm64-musl, mips, mipsel, mips64el]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Link
         run: |
           PLATFORM=linux-$(uname -m)
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
-      - run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=linux-${{ matrix.arch }} -o .
+          dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
 
       - name: Archive
         uses: actions/upload-artifact@v4
@@ -62,6 +63,7 @@ jobs:
     env:
       ARCH: ${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
     steps:
+      - uses: actions/checkout@v4
       - name: Fetch
         run: |
           Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.exe -OutFile sfx.exe
