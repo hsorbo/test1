@@ -20,14 +20,11 @@ jobs:
       - name: Link
         run: |
           PLATFORM=linux-${{ matrix.arch }}
-          echo $PLATFORM
-          PLATFORM2=linux-$(uname -m)
-          echo $PLATFORM2
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           ld.lld --whole-archive -shared libfrida-core.a -o frida.so
           echo dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
-          #dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
+          dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
 
       - name: Archive
         uses: actions/upload-artifact@v4
