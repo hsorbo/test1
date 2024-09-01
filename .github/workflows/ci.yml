@@ -10,16 +10,21 @@ jobs:
       matrix:
         arch: [x86, x86_64, arm64, mips64] # arch: [x86_64-musl, armhf, arm64-musl, mips, mipsel, mips64el]
     runs-on: ubuntu-latest
+    container: ghcr.io/frida/x-tools-linux-${{ matrix.arch }}:latest
     steps:
       - uses: actions/checkout@v4
+      - name: Configure qemu-user
+        if: ${{ !startsWith(matrix.arch, 'x86') }}
+        run: echo "FRIDA_QEMU_SYSROOT=/opt/x-tools/$XTOOLS_HOST/$XTOOLS_HOST/sysroot" >> $GITHUB_ENV
       - name: Link
         run: |
           PLATFORM=linux-${{ matrix.arch }}
+          echo $PLATFORM
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           gcc -o frida.so -shared -Wl,--whole-archive libfrida-core.a -Wl,--no-whole-archive
           echo dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
-          dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
+          #dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
 
       - name: Archive
         uses: actions/upload-artifact@v4
