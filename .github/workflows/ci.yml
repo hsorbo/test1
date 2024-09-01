@@ -23,7 +23,7 @@ jobs:
           apt-get install -y wget
       - name: Link
         run: |
-          PLATFORM=linux-(${{ matrix.arch }})
+          PLATFORM=linux-$(uname -m)
           echo $PLATFORM
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
