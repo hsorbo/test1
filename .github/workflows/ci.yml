@@ -12,6 +12,7 @@ jobs:
           - x86 # [x86, x86_64, arm64, mips64] # arch: [x86_64-musl, armhf, arm64-musl, mips, mipsel, mips64el]
           - x86_64
           - arm64
+          - armhf
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
