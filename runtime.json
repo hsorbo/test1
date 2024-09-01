@@ -24,6 +24,16 @@
       "frida-core-devkit": {
         "frida-core-devkit.runtime.win-x64": "0.0.1"
       }
+    },
+    "osx-arm64": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.osx-arm64": "0.0.1"
+      }
+    },
+    "osx-x64": {
+      "frida-core-devkit": {
+        "frida-core-devkit.runtime.win-x64": "0.0.1"
+      }
     }
   }
 }
