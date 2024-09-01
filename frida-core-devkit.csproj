@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>frida-core-devkit</PackageId>
+        <TargetFramework>net5.0</TargetFramework>
+        <VersionPrefix>0.0.1</VersionPrefix>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="runtime.json" Pack="true" PackagePath="runtime.json" />
+        <None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+    </ItemGroup>
+</Project>

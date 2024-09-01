@@ -99,7 +99,7 @@ jobs:
           pattern: "*-*"
           merge-multiple: true
           path: build/
-      - run: zip build/frida-core-devkit.$NUPKG_VERSION.nupkg runtime.json
+      - run: dotnet pack frida-core-devkit.csproj -o build
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
