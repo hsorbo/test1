@@ -36,7 +36,7 @@ jobs:
           ar x libfrida-core.a
           clang -fuse-ld=lld -shared -ldl -lm -lresolv -pthread  -o frida.so *.o ..*.o 
       - name: Package
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
+        run: dotnet pack frida.core.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -72,7 +72,7 @@ jobs:
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
       - name: Package
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
+        run: dotnet pack frida.core.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -107,7 +107,7 @@ jobs:
       - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
       - name: Package
         shell: bash
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORMX --property VersionPrefix=$NUPKG_VERSION  -o .
+        run: dotnet pack frida.core.runtime.csproj --property Platform=$PLATFORMX --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -130,7 +130,7 @@ jobs:
       - run: |
           ./gen-runtimes.py build > runtime.json
           cat runtime.json
-          dotnet pack frida-core-devkit.csproj --property VersionPrefix=$NUPKG_VERSION -o build
+          dotnet pack frida.core.csproj --property VersionPrefix=$NUPKG_VERSION -o build
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
