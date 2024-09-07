@@ -41,6 +41,7 @@ jobs:
         arch: [x86_64, arm64]  # arm64e
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Link
         run: |
           PLATFORM=macos-${{ matrix.arch }}
