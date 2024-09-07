@@ -6,7 +6,7 @@
     </PropertyGroup>
     <!-- #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el] -->
     <PropertyGroup Condition="'$(Platform)' == 'linux-x86'">
-        <PackageId>frida-core-devkit.runtime.linux-x86</PackageId>
+        <PackageId>frida.core.runtime.linux-x86</PackageId>
         <RuntimeIdentifier>linux-x86</RuntimeIdentifier>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)' == 'linux-x86'">
@@ -14,56 +14,56 @@
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'linux-x86_64'">
-        <PackageId>frida-core-devkit.runtime.linux-x64</PackageId>
+        <PackageId>frida.core.runtime.linux-x64</PackageId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)' == 'linux-x86_64'">
         <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-x64/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'linux-arm64'">
-        <PackageId>frida-core-devkit.runtime.linux-arm64</PackageId>
+        <PackageId>frida.core.runtime.linux-arm64</PackageId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)' == 'linux-arm64'">
         <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-arm64/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'linux-armhf'">
-        <PackageId>frida-core-devkit.runtime.linux-arm32</PackageId>
+        <PackageId>frida.core.runtime.linux-arm32</PackageId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)' == 'linux-armhf'">
         <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-arm32/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'linux-mips64'">
-        <PackageId>frida-core-devkit.runtime.linux-mips64</PackageId>
+        <PackageId>frida.core.runtime.linux-mips64</PackageId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)' == 'linux-mips64'">
         <None Include="frida.so" Pack="true" PackagePath="runtimes/linux-mips64/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'win-x86_64'">
-        <PackageId>frida-core-devkit.runtime.win-x64</PackageId>
+        <PackageId>frida.core.runtime.win-x64</PackageId>
     </PropertyGroup>    
     <ItemGroup Condition="'$(Platform)' == 'win-x86_64'">
         <None Include="frida.dll" Pack="true" PackagePath="runtimes/win-x64/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'win-x86'">
-        <PackageId>frida-core-devkit.runtime.win-x86</PackageId>
+        <PackageId>frida.core.runtime.win-x86</PackageId>
     </PropertyGroup>    
     <ItemGroup Condition="'$(Platform)' == 'win-x86'">
         <None Include="frida.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'macos-x86_64'">
-        <PackageId>frida-core-devkit.runtime.osx-x64</PackageId>
+        <PackageId>frida.core.runtime.osx-x64</PackageId>
     </PropertyGroup>
     <ItemGroup Condition="'$(Platform)' == 'macos-x86_64'">
         <None Include="frida.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Platform)' == 'macos-arm64'">
-        <PackageId>frida-core-devkit.runtime.osx-arm64</PackageId>
+        <PackageId>frida.core.runtime.osx-arm64</PackageId>
     </PropertyGroup>
     
     <ItemGroup Condition="'$(Platform)' == 'macos-arm64'">
