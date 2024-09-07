@@ -101,8 +101,9 @@ jobs:
       - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
       - name: Package
         shell: bash
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
-      - run: ls
+        run: |
+          echo $PLATFORM
+          dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
