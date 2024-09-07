@@ -39,6 +39,7 @@ jobs:
     strategy:
       matrix:
         arch: [arm64, x86_64]  # arm64e
+      fail-fast: false
     runs-on: macos-latest
     env:
       PLATFORM: macos-${{ matrix.arch }}
