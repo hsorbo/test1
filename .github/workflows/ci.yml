@@ -62,9 +62,10 @@ jobs:
             -Wl,-ld_classic \
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
-          ls -lha
       - name: package
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=${{ env.PLATFORM }} -o .
+        run: |
+          dotnet pack frida-core-devkit.runtime.csproj --property Platform=${{ env.PLATFORM }} -o .
+          ls -lha
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
