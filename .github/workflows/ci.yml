@@ -30,7 +30,7 @@ jobs:
       - name: Link
         run: ld.lld --whole-archive -shared libfrida-core.a -o frida.so
       - name: Package
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
+        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -66,7 +66,7 @@ jobs:
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
       - name: Package
-        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
+        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -82,6 +82,7 @@ jobs:
     runs-on: windows-latest
     env:
       ARCH: ${{ matrix.arch == 'x86_64' && 'x64' || matrix.arch }}
+      PLATFORM: macos-${{ matrix.arch }}
     steps:
       - uses: actions/checkout@v4
       - name: Fetch
@@ -98,7 +99,7 @@ jobs:
           echo "EXPORTS" > exports.def
           cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)'  >> exports.def
       - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
-      - run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=win-${{ matrix.arch }} -o .
+      - run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - run: ls
       - name: Archive
         uses: actions/upload-artifact@v4
