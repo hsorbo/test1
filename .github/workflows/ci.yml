@@ -87,6 +87,8 @@ jobs:
           Invoke-WebRequest https://github.com/frida/frida/releases/download/${Env:FRIDA_VERSION}/frida-core-devkit-${Env:FRIDA_VERSION}-windows-${{ matrix.arch }}.exe -OutFile sfx.exe
           ./sfx.exe
       - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.arch }}
       - run: dumpbin /SYMBOLS frida-core.lib > symbols.txt
       - name: "bonanza"
         shell: bash
