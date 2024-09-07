@@ -28,9 +28,8 @@ jobs:
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           ld.lld --whole-archive -shared libfrida-core.a -o frida.so
-          echo dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
-          dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
-
+      - name: package
+        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
@@ -47,9 +46,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Link
         run: |
-          PLATFORM=macos-${{ matrix.arch }}
-          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-${{ env.PLATFORM }}.tar.xz
-          tar xvzf frida-core-devkit-$FRIDA_VERSION-${{ env.PLATFORM }}.tar.xz
+          wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+          tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
           clang libfrida-core.a \
             -framework Foundation \
@@ -63,9 +61,7 @@ jobs:
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
       - name: package
-        run: |
-          dotnet pack frida-core-devkit.runtime.csproj --property Platform=${{ env.PLATFORM }} -o .
-          ls -lha
+        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
