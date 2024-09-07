@@ -28,7 +28,9 @@ jobs:
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
       - name: Link
-        run: ld.lld --whole-archive -shared libfrida-core.a -o frida.so
+        run: |
+          ar x libfrida-core.a
+          clang -shared -ldl -lm -lresolv -pthread  -o frida.so *.o ..*.o 
       - name: Package
         run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
