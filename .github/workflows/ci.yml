@@ -23,12 +23,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y lld
-      - name: Link
+      - name: Download
         run: |
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
-          ld.lld --whole-archive -shared libfrida-core.a -o frida.so
-      - name: package
+      - name: Link
+        run: ld.lld --whole-archive -shared libfrida-core.a -o frida.so
+      - name: Package
         run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
       - name: Archive
         uses: actions/upload-artifact@v4
@@ -45,10 +46,12 @@ jobs:
       PLATFORM: macos-${{ matrix.arch }}
     steps:
       - uses: actions/checkout@v4
-      - name: Link
+      - name: Download
         run: |
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
+      - name: Link
+        run: |
           nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
           clang libfrida-core.a \
             -arch ${{ matrix.arch }} \
@@ -62,7 +65,7 @@ jobs:
             -Wl,-ld_classic \
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
-      - name: package
+      - name: Package
         run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
       - name: Archive
         uses: actions/upload-artifact@v4
@@ -72,7 +75,7 @@ jobs:
   windows-dll:
     strategy:
       matrix:
-        arch: [x86_64]  # [x86, x86_64]
+        arch: [x86_64, x86]  # [, x86_64]
       fail-fast: false
     runs-on: windows-latest
     env:
@@ -114,6 +117,7 @@ jobs:
           path: build/
       - run: |
           ./gen-runtimes.py build > runtime.json
+          cat runtime.json
           dotnet pack frida-core-devkit.csproj -o build
       - name: Archive
         uses: actions/upload-artifact@v4
