@@ -50,7 +50,6 @@ jobs:
           PLATFORM=macos-${{ matrix.arch }}
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-${{ env.PLATFORM }}.tar.xz
           tar xvzf frida-core-devkit-$FRIDA_VERSION-${{ env.PLATFORM }}.tar.xz
-          find .
           nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
           clang libfrida-core.a \
             -framework Foundation \
@@ -63,6 +62,7 @@ jobs:
             -Wl,-ld_classic \
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
+          ls -lha
       - name: package
         run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=${{ env.PLATFORM }} -o .
       - name: Archive
