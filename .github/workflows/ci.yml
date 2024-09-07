@@ -38,7 +38,7 @@ jobs:
   macos-dylib:
     strategy:
       matrix:
-        arch: [arm64]  # arm64e, x86_64
+        arch: [arm64, x86_64]  # arm64e
     runs-on: macos-latest
     env:
       PLATFORM: macos-${{ matrix.arch }}
