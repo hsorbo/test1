@@ -9,10 +9,14 @@ jobs:
     strategy:
       matrix:
         arch:
-          - x86 # [x86, x86_64, arm64, mips64] # arch: [x86_64-musl, armhf, arm64-musl, mips, mipsel, mips64el]
+          # - x86
           - x86_64
-          - arm64
-          - armhf
+          # - arm64
+          # - armhf
+          # - arm64-musl
+          # - mips
+          # - mipsel
+          # - mips64el
       fail-fast: false
     runs-on: ubuntu-latest
     env:
@@ -30,7 +34,7 @@ jobs:
       - name: Link
         run: |
           ar x libfrida-core.a
-          clang -shared -ldl -lm -lresolv -pthread  -o frida.so *.o ..*.o 
+          clang -fuse-ld=lld -shared -ldl -lm -lresolv -pthread  -o frida.so *.o ..*.o 
       - name: Package
         run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM --property VersionPrefix=$NUPKG_VERSION  -o .
       - name: Archive
