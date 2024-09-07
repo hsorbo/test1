@@ -32,7 +32,7 @@
     },
     "osx-x64": {
       "frida-core-devkit": {
-        "frida-core-devkit.runtime.win-x64": "0.0.1"
+        "frida-core-devkit.runtime.osx-x64": "0.0.1"
       }
     }
   }

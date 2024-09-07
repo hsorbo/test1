@@ -38,12 +38,12 @@ jobs:
   macos-dylib:
     strategy:
       matrix:
-        arch: [x86_64, arm64, arm64e]
+        arch: [x86_64, arm64]  # arm64e
     runs-on: macos-latest
     steps:
       - name: Link
         run: |
-          PLATFORM=macos-$(uname -m)
+          PLATFORM=macos-${{ matrix.arch }}
           wget -q https://github.com/frida/frida/releases/download/$FRIDA_VERSION/frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           tar xvzf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           find .
@@ -59,11 +59,13 @@ jobs:
             -Wl,-ld_classic \
             -Wl,-exported_symbols_list,symbols.txt \
             -o frida.dylib
+      - name: package
+        run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=$PLATFORM -o .
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
-          name: macos-${{ matrix.arch }}
-          path: frida.dylib
+          name: osx-${{ matrix.arch }}
+          path: "*.nupkg"
   windows-dll:
     strategy:
       matrix:
@@ -98,6 +100,7 @@ jobs:
     needs:
       - linux-so
       - windows-dll
+      - macos-dylib
     steps:
       - uses: actions/checkout@v4
       - name: Download release assets

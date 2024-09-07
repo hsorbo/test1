@@ -53,4 +53,19 @@
     <ItemGroup Condition="'$(Platform)' == 'win-x86'">
         <None Include="frida.dll" Pack="true" PackagePath="runtimes/win-x86/native" />
     </ItemGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'macos-x86_64'">
+        <PackageId>frida-core-devkit.runtime.osx-x64</PackageId>
+    </PropertyGroup>    
+    <ItemGroup Condition="'$(Platform)' == 'osx-x64'">
+        <None Include="frida.dylib" Pack="true" PackagePath="runtimes/osx-x64/native" />
+    </ItemGroup>
+
+    <PropertyGroup Condition="'$(Platform)' == 'macos-arm64'">
+        <PackageId>frida-core-devkit.runtime.osx-arm64</PackageId>
+    </PropertyGroup>    
+    <ItemGroup Condition="'$(Platform)' == 'osx-arm64'">
+        <None Include="frida.dylib" Pack="true" PackagePath="runtimes/osx-arm64/native" />
+    </ItemGroup>
+
 </Project>
