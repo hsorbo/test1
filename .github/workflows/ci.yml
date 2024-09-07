@@ -50,6 +50,7 @@ jobs:
           tar xvf frida-core-devkit-$FRIDA_VERSION-$PLATFORM.tar.xz
           nm -gUj libfrida-core.a | grep "^_\(frida\|g_\).*"  > symbols.txt
           clang libfrida-core.a \
+            -arch ${{ matrix.arch }} \
             -framework Foundation \
             -framework AppKit \
             -framework IOKit \
