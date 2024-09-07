@@ -113,7 +113,7 @@ jobs:
           merge-multiple: true
           path: build/
       - run: |
-          ./gen-runtimes.py > runtime.json
+          ./gen-runtimes.py build > runtime.json
           dotnet pack frida-core-devkit.csproj -o build
       - name: Archive
         uses: actions/upload-artifact@v4
