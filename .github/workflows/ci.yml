@@ -95,7 +95,7 @@ jobs:
         run: |
           echo "EXPORTS" > exports.def
           cat symbols.txt | grep External | sed 's/.*| //g' | egrep '^_(frida|g_)'  >> exports.def
-      - run: link.exe /MACHINE:${env:ARCH} /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
+      - run: link.exe /DLL /DEF:exports.def /OUT:frida.dll frida-core.lib Ws2_32.lib User32.lib Setupapi.lib Gdi32.lib Advapi32.lib Crypt32.lib Dnsapi.lib Shell32.lib Ole32.lib Psapi.lib Shlwapi.lib
       - run: dotnet pack frida-core-devkit.runtime.csproj --property Platform=win-${{ matrix.arch }} -o .
       - run: ls
       - name: Archive
