@@ -2,6 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <VersionPrefix>0.0.1</VersionPrefix>
+        <IncludeBuildOutput>false</IncludeBuildOutput> 
     </PropertyGroup>
     <!-- #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el] -->
     <PropertyGroup Condition="'$(Platform)' == 'linux-x86'">

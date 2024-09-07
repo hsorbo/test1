@@ -3,6 +3,7 @@
         <PackageId>frida-core-devkit</PackageId>
         <TargetFramework>net5.0</TargetFramework>
         <VersionPrefix>0.0.1</VersionPrefix>
+        <IncludeBuildOutput>false</IncludeBuildOutput> 
     </PropertyGroup>
     <ItemGroup>
         <None Include="runtime.json" Pack="true" PackagePath="runtime.json" />
