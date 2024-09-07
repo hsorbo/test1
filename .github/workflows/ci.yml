@@ -2,7 +2,7 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 env:
-  FRIDA_VERSION: 16.4.10
+  FRIDA_VERSION: 16.5.1
   NUPKG_VERSION: 0.0.1
 jobs:
   linux-so:
