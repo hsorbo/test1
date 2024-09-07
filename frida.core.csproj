@@ -4,9 +4,11 @@
         <TargetFramework>net5.0</TargetFramework>
         <VersionPrefix>0.0.1</VersionPrefix>
         <IncludeBuildOutput>false</IncludeBuildOutput> 
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
     <ItemGroup>
         <None Include="runtime.json" Pack="true" PackagePath="runtime.json" />
         <None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+        <None Include="README.md" Pack="true" PackagePath="/"/>
     </ItemGroup>
 </Project>

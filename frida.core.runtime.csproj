@@ -2,9 +2,15 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <VersionPrefix>0.0.1</VersionPrefix>
-        <IncludeBuildOutput>false</IncludeBuildOutput> 
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
-    <!-- #arch: [x86, x86_64, x86_64-musl, armhf, arm64, arm64-musl, mips, mipsel, mips64, mips64el] -->
+    
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="/"/>
+        <None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+    </ItemGroup>
+
     <PropertyGroup Condition="'$(Platform)' == 'linux-x86'">
         <PackageId>frida-test.core.runtime.linux-x86</PackageId>
         <RuntimeIdentifier>linux-x86</RuntimeIdentifier>
