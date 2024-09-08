@@ -5,6 +5,7 @@
         <VersionPrefix>0.0.1</VersionPrefix>
         <IncludeBuildOutput>false</IncludeBuildOutput> 
         <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     </PropertyGroup>
     <ItemGroup>
         <None Include="runtime.json" Pack="true" PackagePath="runtime.json" />
